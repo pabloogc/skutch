@@ -1,5 +1,5 @@
 import React from "react";
-import {Artboard} from "app/artboards/Artboard";
+import {Artboard} from "app/document/model/Artboard";
 import styled from "styled-components";
 
 // I would usually do this with css variables,
@@ -42,7 +42,7 @@ const Name = styled.div`
   text-align: center;
 `;
 
-export const ArtboardItem: React.FC<{
+export const ArtboardGalleryItem: React.FC<{
   artboard: Artboard,
   onArtboardClicked: (artboard: Artboard) => void
 }> = ({artboard, onArtboardClicked}) => {

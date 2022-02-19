@@ -1,17 +1,17 @@
 import {configureStore, Store} from "@reduxjs/toolkit";
-import {artboardSlice, ArtboardSlice} from "app/artboards/ArtboardSlice";
+import {artboardSlice, DocumentSlice} from "app/document/DocumentSlice";
 
 
 export class StoreManager {
   store!: Store;
 
-  constructor(readonly artboardSlice: ArtboardSlice) {
+  constructor(readonly artboardSlice: DocumentSlice) {
     this.store = configureStore({
       reducer: {
-        [artboardSlice.artboardApi.reducerPath]: artboardSlice.artboardApi.reducer,
+        [artboardSlice.documentApi.reducerPath]: artboardSlice.documentApi.reducer,
       },
       middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(artboardSlice.artboardApi.middleware),
+        getDefaultMiddleware().concat(artboardSlice.documentApi.middleware),
       enhancers: [],
     });
   }

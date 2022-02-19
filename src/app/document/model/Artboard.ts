@@ -1,21 +1,7 @@
-export interface AllArtboards {
-  share: {
-    version: {
-      document: {
-        name: string,
-        artboards: {
-          entries: Artboard[]
-        }
-      }
-    }
-  };
-}
-
-
 export interface Artboard {
   name: string,
   isArtboard: boolean,
-  files: ArtboardFile[]
+  files: ArtboardFile[];
 }
 
 export interface ArtboardFile {

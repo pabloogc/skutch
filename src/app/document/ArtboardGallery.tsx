@@ -1,9 +1,9 @@
 import React from "react";
-import {ArtboardItem} from "app/artboards/view/ArboardItem";
+import {ArtboardGalleryItem} from "app/document/ArboardGalleryItem";
 import styled from "styled-components";
 import {TopBar} from "app/components/TopBar";
 import {ReactComponent as SketchLogo} from "assets/sketch-logo.svg";
-import {Artboard} from "app/artboards/Artboard";
+import {Artboard} from "app/document/model/Artboard";
 
 const RootContainer = styled.div`
   display: flex;
@@ -20,25 +20,21 @@ const ArtboardsContainer = styled.div`
   padding: 32px;
 `;
 
-export const ArtboardBrowser: React.FC<{
+export const ArtboardGallery: React.FC<{
   artboards: Artboard[],
-  onArtBoardSelected: (artboard: Artboard, index: number) => void
-}> = ({
-        artboards,
-        onArtBoardSelected,
-      }) => {
-
+  onSelect: (index: number) => void
+}> = ({artboards, onSelect}) => {
 
   return (
     <RootContainer>
       <TopBar icon={<SketchLogo/>} title={"Artboards"}/>
       <ArtboardsContainer>
         {artboards?.map((artboard, i) => {
-          return (<ArtboardItem key={i}
-                                artboard={artboard}
-                                onArtboardClicked={() => {
-                                  onArtBoardSelected(artboard, i);
-                                }}/>);
+          return (<ArtboardGalleryItem key={i}
+                                       artboard={artboard}
+                                       onArtboardClicked={() => {
+                                         onSelect(i);
+                                       }}/>);
         })}
 
       </ArtboardsContainer>

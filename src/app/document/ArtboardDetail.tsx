@@ -1,5 +1,5 @@
-import {Artboard} from "app/artboards/Artboard";
-import React, {useState} from "react";
+import {Artboard} from "app/document/model/Artboard";
+import React from "react";
 import {TopBar} from "app/components/TopBar";
 import {ReactComponent as CloseIcon} from "assets/close.svg";
 import {ReactComponent as BackIcon} from "assets/arrow-left.svg";
@@ -50,32 +50,33 @@ const ArtboardImageFile = styled.img`
 `;
 
 export const ArtboardDetail: React.FC<{
-  artboard: Artboard,
-  onArtboardClosed: () => void
-}> = ({artboard, onArtboardClosed}) => {
+  artboards: Artboard[],
+  artboard: number,
+  onSelect: (index: number) => void,
+  onClose: () => void
+}> = ({artboards, artboard, onSelect, onClose}) => {
 
-  const [fileIndex, setFileIndex] = useState(0);
+  const images = artboards.map((a) => a.files[0].url);
+  const selectedArtboard = artboards[artboard];
 
-  function updateImageIndex(offset: number) {
-    setFileIndex(Math.max(0, Math.min(fileIndex + offset, files.length - 1)));
-    console.log(artboard.files[fileIndex])
+  function selectArtboard(offset: number) {
+    const newIndex = Math.max(0, Math.min(artboard + offset, artboards.length - 1));
+    onSelect(newIndex);
   }
 
-  const files = artboard.files;
-
   return <RootContainer>
-    <TopBar icon={<CloseIcon/>} onIconClick={onArtboardClosed} title={artboard.name}>
+    <TopBar icon={<CloseIcon/>} onIconClick={onClose} title={selectedArtboard.name}>
       <TopBarFileIndicator>
-        <ClickableIcon onClick={() => updateImageIndex(-1)}><BackIcon/></ClickableIcon>
-        <span>{fileIndex + 1}</span>
+        <ClickableIcon onClick={() => selectArtboard(-1)}><BackIcon/></ClickableIcon>
+        <span>{artboard + 1}</span>
         <SlashIcon/>
-        <span>{files.length}</span>
-        <ClickableIcon onClick={() => updateImageIndex(+1)}><ForwardIcon/></ClickableIcon>
+        <span>{artboards.length}</span>
+        <ClickableIcon onClick={() => selectArtboard(+1)}><ForwardIcon/></ClickableIcon>
       </TopBarFileIndicator>
     </TopBar>
 
     <ArtboardContainer>
-      <ArtboardImageFile src={artboard.files[fileIndex].url}/>
+      <ArtboardImageFile src={images[artboard]}/>
     </ArtboardContainer>
   </RootContainer>;
 };

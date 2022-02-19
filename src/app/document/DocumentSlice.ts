@@ -1,9 +1,8 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {AllArtboards, Artboard} from "app/artboards/Artboard";
+import {Document, DocumentDTO} from "app/document/model/Document";
 
-const ALL_ARTBOARDS_QUERY = `
-{
-  share(id: "e981971c-ff57-46dc-a932-a60dc1804992") {
+const documentGQLQuery = (documentId: string) => `{
+  share(id: "${documentId}") {
     identifier
     version {
       document {
@@ -31,26 +30,30 @@ const ALL_ARTBOARDS_QUERY = `
 }
 `;
 
-export class ArtboardSlice {
+export class DocumentSlice {
 
-  readonly artboardApi;
+  readonly documentApi;
 
   constructor() {
-    this.artboardApi = createApi(
+    this.documentApi = createApi(
       {
         baseQuery: fetchBaseQuery({
           baseUrl: "https://graphql.sketch.cloud/", // This should come from a .env file
         }),
         endpoints: builder => ({
-          getArtboards: builder.query<Artboard[], any>({
-            query: () => ({
+          getDocument: builder.query<Document, string>({
+            query: (query) => ({
               url: "/api",
               params: {
-                "query": ALL_ARTBOARDS_QUERY,
+                "query": documentGQLQuery(query),
               },
             }),
-            transformResponse: (rawResult: { data: AllArtboards }) => {
-              return rawResult.data.share.version.document.artboards.entries;
+            transformResponse: (rawResult: { data: DocumentDTO }) => {
+              const rawDoc = rawResult.data.share.version.document;
+              return {
+                name: rawDoc.name,
+                artboards: rawDoc.artboards.entries,
+              };
             },
           }),
         }),
@@ -59,4 +62,4 @@ export class ArtboardSlice {
   }
 }
 
-export const artboardSlice = new ArtboardSlice();
+export const artboardSlice = new DocumentSlice();
