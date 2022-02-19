@@ -1,29 +1,20 @@
-import {Action, configureStore, Store} from "@reduxjs/toolkit";
-import {singleton} from "tsyringe";
-import {Logger} from "core/middleware/Logger";
-
-export interface AppState {
-}
-
-export interface RootAction extends Action {
-}
+import {configureStore, Store} from "@reduxjs/toolkit";
+import {artboardSlice, ArtboardSlice} from "app/artboards/ArtboardSlice";
 
 
-
-export function rootReducer(state: AppState, action: RootAction): AppState {
-  return state;
-}
-
-@singleton()
 export class StoreManager {
+  store!: Store;
 
-  store!: Store<AppState, RootAction>;
-
-  constructor(readonly logger: Logger) {
+  constructor(readonly artboardSlice: ArtboardSlice) {
     this.store = configureStore({
-      reducer: rootReducer,
-      middleware: [this.logger.middleware],
+      reducer: {
+        [artboardSlice.artboardApi.reducerPath]: artboardSlice.artboardApi.reducer,
+      },
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(artboardSlice.artboardApi.middleware),
       enhancers: [],
     });
   }
 }
+
+export const storeManager = new StoreManager(artboardSlice);
