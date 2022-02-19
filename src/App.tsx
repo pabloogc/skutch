@@ -1,18 +1,15 @@
 import React from "react";
-import "./App.css";
 import {Provider} from "react-redux";
 import {storeManager} from "core/StoreManager";
-import {ArtboardPage} from "app/artboards/ArtboardPage";
+import {ArtboardPage} from "app/artboards/view/ArtboardPage";
 
 function App() {
-
   return (
     <Provider store={storeManager.store}>
-      <div className="App">
+      <div>
         <ArtboardPage/>
       </div>
     </Provider>
-
   );
 }
 
