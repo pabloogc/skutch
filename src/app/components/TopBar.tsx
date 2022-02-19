@@ -8,15 +8,12 @@ const RootContainer = styled.div`
   height: 64px;
   top: 0;
   align-items: center;
+  background: white;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 `;
 
-const ControlsContainer = styled.div`
+const Container = styled.div`
   display: flex;
-  height: 100%;
-  flex-direction: row;
-  align-items: stretch;
-  background: white;
 `;
 
 const Title = styled.div`
@@ -27,15 +24,14 @@ const Title = styled.div`
   transform: translate(-50%, -50%)
 `;
 
-
 const Icon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 16px;
-  min-width: 32px;
-  height: 100%;
+  margin: 0 16px;
   cursor: ${props => props.onClick ? "pointer" : "inherit"};
+  min-width: 48px;
+  min-height: 48px;
 `;
 
 
@@ -58,10 +54,10 @@ export const TopBar: React.FC<{
 
   return <RootContainer>
     <Title>{title}</Title>
-    <ControlsContainer>
+    <Container>
       <Icon onClick={onIconClick}>{icon}</Icon>
       <Separator/>
       <Content>{children}</Content>
-    </ControlsContainer>
+    </Container>
   </RootContainer>;
 };
