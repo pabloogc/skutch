@@ -39,7 +39,7 @@ export class ArtboardSlice {
     this.artboardApi = createApi(
       {
         baseQuery: fetchBaseQuery({
-          baseUrl: "https://graphql.sketch.cloud/",
+          baseUrl: "https://graphql.sketch.cloud/", // This should come from a .env file
         }),
         endpoints: builder => ({
           getArtboards: builder.query<Artboard[], any>({
@@ -50,7 +50,6 @@ export class ArtboardSlice {
               },
             }),
             transformResponse: (rawResult: { data: AllArtboards }) => {
-              console.debug(rawResult.data)
               return rawResult.data.share.version.document.artboards.entries;
             },
           }),

@@ -2,10 +2,12 @@ import React from "react";
 import {artboardSlice} from "app/artboards/ArtboardSlice";
 import {ArtboardItem} from "app/artboards/view/ArboardItem";
 import styled from "styled-components";
-
+import {TopBar} from "app/components/TopBar";
+import {ReactComponent as SketchLogo} from "assets/sketch-logo.svg";
 
 const RootContainer = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
 `;
 
@@ -28,8 +30,9 @@ export const ArtboardPage: React.FC = () => {
     error,
   } = artboardSlice.artboardApi.useGetArtboardsQuery("");
 
-  console.log(isLoading);
-  return (<RootContainer>
+  return (
+    <RootContainer>
+      <TopBar icon={<SketchLogo/>}>Artboards</TopBar>
       <ArtboardsContainer>
         {isLoading && <div>Spin</div>}
         {artboards?.map((artboard, i) => {
