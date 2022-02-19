@@ -1,27 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import {artboardSlice} from "app/artboards/ArtboardSlice";
-import {ArtboardItem} from "app/artboards/view/ArboardItem";
 import styled from "styled-components";
-import {TopBar} from "app/components/TopBar";
-import {ReactComponent as SketchLogo} from "assets/sketch-logo.svg";
+import {ArtboardBrowser} from "app/artboards/view/ArtboardBrowser";
+import {ArtboardDetail} from "app/artboards/view/ArtboardDetail";
+import {Artboard} from "app/artboards/Artboard";
 
 const RootContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-`;
-
-const ArtboardsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  row-gap: 32px;
-  column-gap: 32px;
-  padding: 32px;
 `;
 
 export const ArtboardPage: React.FC = () => {
 
+  const [selectedArtboard, setSelectedArtboard] = useState<Artboard>();
   const {
     data: artboards,
     isLoading,
@@ -30,19 +21,22 @@ export const ArtboardPage: React.FC = () => {
     error,
   } = artboardSlice.artboardApi.useGetArtboardsQuery("");
 
+  let content: React.ReactNode;
+  if (isLoading) {
+    content = <div>Loading...</div>;
+  } else if (isError) {
+    content = <div>Something went wrong: {error}</div>;
+  } else if (artboards) {
+    if (!selectedArtboard) {
+      content = <ArtboardBrowser artboards={artboards} onArtBoardSelected={(a => setSelectedArtboard(a))}/>;
+    } else {
+      content = <ArtboardDetail artboard={selectedArtboard} onArtboardClosed={() => setSelectedArtboard(undefined)}/>;
+    }
+  }
+
   return (
     <RootContainer>
-      <TopBar icon={<SketchLogo/>}>Artboards</TopBar>
-      <ArtboardsContainer>
-        {isLoading && <div>Spin</div>}
-        {artboards?.map((artboard, i) => {
-          return (<ArtboardItem key={i}
-                                artboard={artboard}
-                                onArtboardClicked={() => {
-                                }}/>);
-        })}
-
-      </ArtboardsContainer>
+      {content}
     </RootContainer>
   );
 };
