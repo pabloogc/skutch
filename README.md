@@ -60,9 +60,3 @@ I wanted to experiment a bit with `react router v6` and added very basic routing
 I added some react and redux test. I didn't add more complex integration tests (like tests for the DocumentPage) for the
 sake of time, they require quite a bit of set up. Doing them shouldn't be a problem given a something
 like [msw](https://mswjs.io/) is already configured.
-
-## State management
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more
-information.
