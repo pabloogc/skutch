@@ -2,6 +2,8 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {SketchDocument, SketchDocumentQueryDTO} from "app/document/model/SketchDocument";
 import {createSlice} from "@reduxjs/toolkit";
 
+// Don't want to overcomplicate how the graphql is consumed, so just
+// hardcoded it here with the optional parameter
 const documentGQLQuery = (documentId: string) => `{
   share(id: "${documentId}") {
     identifier
@@ -52,16 +54,14 @@ const api = createApi(
             "query": documentGQLQuery(query),
           },
           validateStatus: (response, result) => {
+            if (response.status !== 200) return false;
+            const error = (result as SketchDocumentQueryDTO).errors?.at(0);
+            if (error) throw error.message ?? "Something went wrong";
             return result;
           },
         }),
         transformResponse: (rawResult: SketchDocumentQueryDTO) => {
-          const error = rawResult.errors?.at(0);
-          if (error) {
-            throw error.message ?? "Something went wrong";
-          }
           const rawDoc = rawResult.data.share.version.document;
-
           return {
             name: rawDoc.name,
             artboards: rawDoc.artboards.entries,
