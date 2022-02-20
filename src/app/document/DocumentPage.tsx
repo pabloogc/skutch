@@ -4,7 +4,7 @@ import styled from "styled-components";
 import {ArtboardGallery} from "app/document/ArtboardGallery";
 import {ArtboardDetail} from "app/document/ArtboardDetail";
 import {useDispatch} from "react-redux";
-import {useAppSelector} from "core/store";
+import {useAppSelector} from "store";
 import {useParams} from "react-router-dom";
 
 const RootContainer = styled.div`
