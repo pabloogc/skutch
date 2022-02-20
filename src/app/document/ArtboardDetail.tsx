@@ -1,4 +1,3 @@
-import {Artboard} from "app/document/model/Artboard";
 import React from "react";
 import {TopBar} from "app/components/TopBar";
 import {ReactComponent as CloseIcon} from "assets/close.svg";
@@ -6,6 +5,7 @@ import {ReactComponent as BackIcon} from "assets/arrow-left.svg";
 import {ReactComponent as ForwardIcon} from "assets/arrow-right.svg";
 import {ReactComponent as SlashIcon} from "assets/breadcrumb.svg";
 import styled from "styled-components";
+import {SketchDocument} from "app/document/model/SketchDocument";
 
 const RootContainer = styled.div`
   display: flex;
@@ -50,12 +50,13 @@ const ArtboardImageFile = styled.img`
 `;
 
 export const ArtboardDetail: React.FC<{
-  artboards: Artboard[],
+  document: SketchDocument,
   artboard: number,
   onSelect: (index: number) => void,
   onClose: () => void
-}> = ({artboards, artboard, onSelect, onClose}) => {
+}> = ({document, artboard, onSelect, onClose}) => {
 
+  const artboards = document.artboards;
   const images = artboards.map((a) => a.files[0].url);
   const selectedArtboard = artboards[artboard];
 
@@ -64,19 +65,21 @@ export const ArtboardDetail: React.FC<{
     onSelect(newIndex);
   }
 
-  return <RootContainer>
-    <TopBar icon={<CloseIcon/>} onIconClick={onClose} title={selectedArtboard.name}>
-      <TopBarFileIndicator>
-        <ClickableIcon onClick={() => selectArtboard(-1)}><BackIcon/></ClickableIcon>
-        <span>{artboard + 1}</span>
-        <SlashIcon/>
-        <span>{artboards.length}</span>
-        <ClickableIcon onClick={() => selectArtboard(+1)}><ForwardIcon/></ClickableIcon>
-      </TopBarFileIndicator>
-    </TopBar>
+  return (
+    <RootContainer>
+      <TopBar icon={<CloseIcon/>} onIconClick={onClose} title={selectedArtboard.name}>
+        <TopBarFileIndicator>
+          <ClickableIcon onClick={() => selectArtboard(-1)}><BackIcon/></ClickableIcon>
+          <span>{artboard + 1}</span>
+          <SlashIcon/>
+          <span>{artboards.length}</span>
+          <ClickableIcon onClick={() => selectArtboard(+1)}><ForwardIcon/></ClickableIcon>
+        </TopBarFileIndicator>
+      </TopBar>
 
-    <ArtboardContainer>
-      <ArtboardImageFile src={images[artboard]}/>
-    </ArtboardContainer>
-  </RootContainer>;
+      <ArtboardContainer>
+        <ArtboardImageFile src={images[artboard]}/>
+      </ArtboardContainer>
+    </RootContainer>
+  );
 };

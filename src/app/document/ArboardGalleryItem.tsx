@@ -2,9 +2,6 @@ import React from "react";
 import {Artboard} from "app/document/model/Artboard";
 import styled from "styled-components";
 
-// I would usually do this with css variables,
-// can't find a cleaner way to do it with styled components
-
 const imageHeight = 350;
 const textHeight = 50;
 const itemWidth = 300;
@@ -49,11 +46,12 @@ export const ArtboardGalleryItem: React.FC<{
 
   const thumbnail = artboard.files[0].thumbnails[0];
 
-  return <Container onClick={() => onArtboardClicked(artboard)}>
-    <ImageContainer>
-      <Image src={thumbnail.url} width={thumbnail.width} height={thumbnail.height}/>
-    </ImageContainer>
-    <Name>{artboard.name}<br/></Name>
-  </Container>;
-
+  return (
+    <Container onClick={() => onArtboardClicked(artboard)}>
+      <ImageContainer>
+        <Image src={thumbnail.url} width={thumbnail.width} height={thumbnail.height}/>
+      </ImageContainer>
+      <Name>{artboard.name}<br/></Name>
+    </Container>
+  );
 };

@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {Document, DocumentDTO} from "app/document/model/Document";
+import {SketchDocument, SketchDocumentDTO} from "app/document/model/SketchDocument";
 
 const documentGQLQuery = (documentId: string) => `{
   share(id: "${documentId}") {
@@ -41,14 +41,14 @@ export class DocumentSlice {
           baseUrl: "https://graphql.sketch.cloud/", // This should come from a .env file
         }),
         endpoints: builder => ({
-          getDocument: builder.query<Document, string>({
+          getDocument: builder.query<SketchDocument, string>({
             query: (query) => ({
               url: "/api",
               params: {
                 "query": documentGQLQuery(query),
               },
             }),
-            transformResponse: (rawResult: { data: DocumentDTO }) => {
+            transformResponse: (rawResult: { data: SketchDocumentDTO }) => {
               const rawDoc = rawResult.data.share.version.document;
               return {
                 name: rawDoc.name,

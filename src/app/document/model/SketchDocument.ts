@@ -1,6 +1,6 @@
 import {Artboard} from "app/document/model/Artboard";
 
-export interface DocumentDTO {
+export interface SketchDocumentDTO {
   share: {
     version: {
       document: {
@@ -13,7 +13,7 @@ export interface DocumentDTO {
   };
 }
 
-export interface Document {
+export interface SketchDocument {
   name: string;
   artboards: Artboard[];
 }

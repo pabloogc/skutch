@@ -3,7 +3,7 @@ import {ArtboardGalleryItem} from "app/document/ArboardGalleryItem";
 import styled from "styled-components";
 import {TopBar} from "app/components/TopBar";
 import {ReactComponent as SketchLogo} from "assets/sketch-logo.svg";
-import {Artboard} from "app/document/model/Artboard";
+import {SketchDocument} from "app/document/model/SketchDocument";
 
 const RootContainer = styled.div`
   display: flex;
@@ -21,15 +21,15 @@ const ArtboardsContainer = styled.div`
 `;
 
 export const ArtboardGallery: React.FC<{
-  artboards: Artboard[],
+  document: SketchDocument,
   onSelect: (index: number) => void
-}> = ({artboards, onSelect}) => {
+}> = ({document, onSelect}) => {
 
   return (
     <RootContainer>
-      <TopBar icon={<SketchLogo/>} title={"Artboards"}/>
+      <TopBar icon={<SketchLogo/>} title={document.name}/>
       <ArtboardsContainer>
-        {artboards?.map((artboard, i) => {
+        {document.artboards?.map((artboard, i) => {
           return (<ArtboardGalleryItem key={i}
                                        artboard={artboard}
                                        onArtboardClicked={() => {

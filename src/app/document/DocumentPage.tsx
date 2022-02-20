@@ -30,11 +30,11 @@ export const DocumentPage: React.FC = () => {
 
     if (selectedArtboard == undefined) {
       // Nothing selected, show the gallery
-      content = <ArtboardGallery artboards={document.artboards}
+      content = <ArtboardGallery document={document}
                                  onSelect={(index => setSelectedArtboard(index))}/>;
     } else {
       // Show the selected artboard
-      content = <ArtboardDetail artboards={document.artboards}
+      content = <ArtboardDetail document={document}
                                 artboard={selectedArtboard}
                                 onSelect={index => setSelectedArtboard(index)}
                                 onClose={() => setSelectedArtboard(undefined)}/>;
