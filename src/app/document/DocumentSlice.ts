@@ -1,5 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {SketchDocument, SketchDocumentDTO} from "app/document/model/SketchDocument";
+import {createSlice} from "@reduxjs/toolkit";
+import {PayloadAction} from "typesafe-actions";
 
 const documentGQLQuery = (documentId: string) => `{
   share(id: "${documentId}") {
@@ -30,36 +32,52 @@ const documentGQLQuery = (documentId: string) => `{
 }
 `;
 
-export class DocumentSlice {
-
-  readonly documentApi;
-
-  constructor() {
-    this.documentApi = createApi(
-      {
-        baseQuery: fetchBaseQuery({
-          baseUrl: "https://graphql.sketch.cloud/", // This should come from a .env file
-        }),
-        endpoints: builder => ({
-          getDocument: builder.query<SketchDocument, string>({
-            query: (query) => ({
-              url: "/api",
-              params: {
-                "query": documentGQLQuery(query),
-              },
-            }),
-            transformResponse: (rawResult: { data: SketchDocumentDTO }) => {
-              const rawDoc = rawResult.data.share.version.document;
-              return {
-                name: rawDoc.name,
-                artboards: rawDoc.artboards.entries,
-              };
-            },
-          }),
-        }),
-      },
-    );
-  }
+export interface DocumentState {
+  selectedArtboard: number | undefined;
 }
 
-export const artboardSlice = new DocumentSlice();
+const initialState: DocumentState = {
+  selectedArtboard: undefined,
+};
+
+const api = createApi(
+  {
+    baseQuery: fetchBaseQuery({
+      baseUrl: "https://graphql.sketch.cloud/", // This should come from a .env file
+    }),
+    endpoints: builder => ({
+      getDocument: builder.query<SketchDocument, string>({
+        query: (query) => ({
+          url: "/api",
+          params: {
+            "query": documentGQLQuery(query),
+          },
+        }),
+        transformResponse: (rawResult: { data: SketchDocumentDTO }) => {
+          const rawDoc = rawResult.data.share.version.document;
+          return {
+            name: rawDoc.name,
+            artboards: rawDoc.artboards.entries,
+          };
+        },
+      }),
+    }),
+  },
+);
+
+const slice = createSlice({
+  name: "documents",
+  initialState: initialState,
+  reducers: {
+    selectArtboard: (state, action: PayloadAction<string, number | undefined>) => {
+      state.selectedArtboard = action.payload;
+    },
+  },
+});
+
+export const documentSlice = {
+  api: api,
+  slice: slice,
+  actions: slice.actions,
+};
+

@@ -1,11 +1,11 @@
 import React from "react";
 import {Provider} from "react-redux";
-import {storeManager} from "core/StoreManager";
 import {DocumentPage} from "app/document/DocumentPage";
+import {store} from "core/store";
 
 function App() {
   return (
-    <Provider store={storeManager.store}>
+    <Provider store={store}>
       <div>
         <DocumentPage/>
       </div>

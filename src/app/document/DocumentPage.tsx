@@ -1,8 +1,10 @@
-import React, {useState} from "react";
-import {artboardSlice} from "app/document/DocumentSlice";
+import React from "react";
+import {documentSlice} from "app/document/DocumentSlice";
 import styled from "styled-components";
 import {ArtboardGallery} from "app/document/ArtboardGallery";
 import {ArtboardDetail} from "app/document/ArtboardDetail";
+import {useDispatch} from "react-redux";
+import {useAppSelector} from "core/store";
 
 const RootContainer = styled.div`
   display: flex;
@@ -11,7 +13,11 @@ const RootContainer = styled.div`
 
 export const DocumentPage: React.FC = () => {
 
-  const [selectedArtboard, setSelectedArtboard] = useState<number>();
+  const dispatch = useDispatch();
+  const selectedArtboard = useAppSelector((s => s.documents.selectedArtboard));
+  const selectArtboard = (index: number | undefined) => {
+    dispatch(documentSlice.actions.selectArtboard(index));
+  };
 
   const {
     data: document,
@@ -19,7 +25,7 @@ export const DocumentPage: React.FC = () => {
     isSuccess,
     isError,
     error,
-  } = artboardSlice.documentApi.useGetDocumentQuery("e981971c-ff57-46dc-a932-a60dc1804992");
+  } = documentSlice.api.useGetDocumentQuery("e981971c-ff57-46dc-a932-a60dc1804992");
 
   let content: React.ReactNode;
   if (isLoading) {
@@ -31,13 +37,13 @@ export const DocumentPage: React.FC = () => {
     if (selectedArtboard == undefined) {
       // Nothing selected, show the gallery
       content = <ArtboardGallery document={document}
-                                 onSelect={(index => setSelectedArtboard(index))}/>;
+                                 onSelect={(index => selectArtboard(index))}/>;
     } else {
       // Show the selected artboard
       content = <ArtboardDetail document={document}
                                 artboard={selectedArtboard}
-                                onSelect={index => setSelectedArtboard(index)}
-                                onClose={() => setSelectedArtboard(undefined)}/>;
+                                onSelect={index => selectArtboard(index)}
+                                onClose={() => selectArtboard(undefined)}/>;
     }
   }
 
