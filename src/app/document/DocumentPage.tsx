@@ -5,13 +5,25 @@ import {ArtboardGallery} from "app/document/ArtboardGallery";
 import {ArtboardDetail} from "app/document/ArtboardDetail";
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "core/store";
+import {useParams} from "react-router-dom";
 
 const RootContainer = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
 `;
 
+const ErrorOrLoadingContainer = styled.h3`
+  align-self: center;
+  margin-top: 10%;
+`;
+
+const DEFAULT_DOCUMENT_ID = "e981971c-ff57-46dc-a932-a60dc1804992";
+
 export const DocumentPage: React.FC = () => {
+
+  const {documentId} = useParams();
+  console.log(documentId);
 
   const dispatch = useDispatch();
   const selectedArtboard = useAppSelector((s => s.documents.selectedArtboard));
@@ -25,13 +37,14 @@ export const DocumentPage: React.FC = () => {
     isSuccess,
     isError,
     error,
-  } = documentSlice.api.useGetDocumentQuery("e981971c-ff57-46dc-a932-a60dc1804992");
+  } = documentSlice.api.useGetDocumentQuery(documentId ?? DEFAULT_DOCUMENT_ID);
 
   let content: React.ReactNode;
   if (isLoading) {
-    content = <div>Loading...</div>;
-  } else if (isError) {
-    content = <div>Something went wrong: {error}</div>;
+    content = <ErrorOrLoadingContainer>Loading Artboards...</ErrorOrLoadingContainer>;
+  } else if (isError && error) {
+    content =
+      <ErrorOrLoadingContainer>{("message" in error) ? error.message : "Something went wrong"}</ErrorOrLoadingContainer>;
   } else if (document) {
 
     if (selectedArtboard == undefined) {

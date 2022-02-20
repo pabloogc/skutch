@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {SketchDocument, SketchDocumentDTO} from "app/document/model/SketchDocument";
+import {SketchDocument, SketchDocumentQueryDTO} from "app/document/model/SketchDocument";
 import {createSlice} from "@reduxjs/toolkit";
 import {PayloadAction} from "typesafe-actions";
 
@@ -52,9 +52,17 @@ const api = createApi(
           params: {
             "query": documentGQLQuery(query),
           },
+          validateStatus: (response, result) => {
+            return result;
+          },
         }),
-        transformResponse: (rawResult: { data: SketchDocumentDTO }) => {
+        transformResponse: (rawResult: SketchDocumentQueryDTO) => {
+          const error = rawResult.errors?.at(0);
+          if (error) {
+            throw error.message ?? "Something went wrong";
+          }
           const rawDoc = rawResult.data.share.version.document;
+
           return {
             name: rawDoc.name,
             artboards: rawDoc.artboards.entries,
