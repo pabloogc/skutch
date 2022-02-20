@@ -1,5 +1,5 @@
 import React from "react";
-import {ArtboardGalleryItem} from "app/document/ArboardGalleryItem";
+import {ArtboardGalleryItem} from "app/document/view/ArboardGalleryItem";
 import styled from "styled-components";
 import {TopBar} from "app/components/TopBar";
 import {ReactComponent as SketchLogo} from "assets/sketch-logo.svg";

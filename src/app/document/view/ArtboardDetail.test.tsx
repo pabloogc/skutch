@@ -1,4 +1,4 @@
-import {ArtboardDetail} from "app/document/ArtboardDetail";
+import {ArtboardDetail} from "app/document/view/ArtboardDetail";
 import {SketchDocument} from "app/document/model/SketchDocument";
 import {render, screen} from "@testing-library/react";
 

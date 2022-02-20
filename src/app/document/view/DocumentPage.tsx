@@ -1,8 +1,8 @@
 import React from "react";
 import {documentSlice} from "app/document/DocumentSlice";
 import styled from "styled-components";
-import {ArtboardGallery} from "app/document/ArtboardGallery";
-import {ArtboardDetail} from "app/document/ArtboardDetail";
+import {ArtboardGallery} from "app/document/view/ArtboardGallery";
+import {ArtboardDetail} from "app/document/view/ArtboardDetail";
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "store";
 import {useParams} from "react-router-dom";
@@ -37,7 +37,6 @@ export const DocumentPage: React.FC = () => {
     isError,
     error,
   } = api.useGetDocumentQuery(docToQuery);
-
 
   let content: React.ReactNode;
   if (isLoading) {

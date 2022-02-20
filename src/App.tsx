@@ -1,6 +1,6 @@
 import React from "react";
 import {Provider} from "react-redux";
-import {DocumentPage} from "app/document/DocumentPage";
+import {DocumentPage} from "app/document/view/DocumentPage";
 import {store} from "store";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 
