@@ -1,4 +1,4 @@
-import {ArtboardDetail} from "app/document/view/ArtboardDetail";
+import {ArtboardGallery} from "app/document/view/ArtboardGallery";
 import {SketchDocument} from "app/document/model/SketchDocument";
 import {render, screen} from "@testing-library/react";
 
@@ -35,7 +35,7 @@ const anyDocument: SketchDocument = {
 };
 
 test("should display a top bar with the navigation controls", () => {
-  render(<ArtboardDetail
+  render(<ArtboardGallery
     document={anyDocument}
     artboard={0}
     onSelect={() => undefined}
@@ -49,7 +49,7 @@ test("should display a top bar with the navigation controls", () => {
 });
 
 test("should display the artboard image", () => {
-  render(<ArtboardDetail
+  render(<ArtboardGallery
     document={anyDocument}
     artboard={0}
     onSelect={() => undefined}

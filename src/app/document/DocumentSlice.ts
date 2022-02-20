@@ -48,10 +48,10 @@ const api = createApi(
     }),
     endpoints: builder => ({
       getDocument: builder.query<SketchDocument, string>({
-        query: (query) => ({
+        query: (documentId) => ({
           url: "/api",
           params: {
-            "query": documentGQLQuery(query),
+            "query": documentGQLQuery(documentId),
           },
           validateStatus: (response, result) => {
             if (response.status !== 200) return false;

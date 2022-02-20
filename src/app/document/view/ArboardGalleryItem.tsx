@@ -8,7 +8,7 @@ const itemWidth = 300;
 
 const itemHeight = imageHeight + textHeight;
 
-const Container = styled.div`
+const RootContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: ${itemWidth}px;
@@ -47,11 +47,11 @@ export const ArtboardGalleryItem: React.FC<{
   const thumbnail = artboard.files[0].thumbnails[0];
 
   return (
-    <Container onClick={() => onArtboardClicked(artboard)}>
+    <RootContainer onClick={() => onArtboardClicked(artboard)}>
       <ImageContainer>
         <Image src={thumbnail.url} width={thumbnail.width} height={thumbnail.height}/>
       </ImageContainer>
       <Name>{artboard.name}<br/></Name>
-    </Container>
+    </RootContainer>
   );
 };
