@@ -23,28 +23,31 @@ const DEFAULT_DOCUMENT_ID = "e981971c-ff57-46dc-a932-a60dc1804992";
 export const DocumentPage: React.FC = () => {
 
   const {documentId} = useParams();
-  console.log(documentId);
-
+  const docToQuery = documentId ?? DEFAULT_DOCUMENT_ID;
   const dispatch = useDispatch();
   const selectedArtboard = useAppSelector((s => s.documents.selectedArtboard));
   const selectArtboard = (index: number | undefined) => {
     dispatch(documentSlice.actions.selectArtboard(index));
   };
 
+  const api = documentSlice.api;
   const {
     data: document,
     isLoading,
-    isSuccess,
     isError,
     error,
-  } = documentSlice.api.useGetDocumentQuery(documentId ?? DEFAULT_DOCUMENT_ID);
+  } = api.useGetDocumentQuery(docToQuery);
+
 
   let content: React.ReactNode;
   if (isLoading) {
     content = <ErrorOrLoadingContainer>Loading Artboards...</ErrorOrLoadingContainer>;
-  } else if (isError && error) {
+  } else if (isError) {
     content =
-      <ErrorOrLoadingContainer>{("message" in error) ? error.message : "Something went wrong"}</ErrorOrLoadingContainer>;
+      <ErrorOrLoadingContainer
+        onClick={() => dispatch(api.endpoints.getDocument.initiate(docToQuery, {forceRefetch: true}))}>
+        {(error && "message" in error) ? error.message : "Something went wrong. Click to refresh"}
+      </ErrorOrLoadingContainer>;
   } else if (document) {
 
     if (selectedArtboard == undefined) {
@@ -62,6 +65,7 @@ export const DocumentPage: React.FC = () => {
 
   return (
     <RootContainer>
+
       {content}
     </RootContainer>
   );

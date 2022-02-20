@@ -1,7 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {SketchDocument, SketchDocumentQueryDTO} from "app/document/model/SketchDocument";
 import {createSlice} from "@reduxjs/toolkit";
-import {PayloadAction} from "typesafe-actions";
 
 const documentGQLQuery = (documentId: string) => `{
   share(id: "${documentId}") {
@@ -77,7 +76,7 @@ const slice = createSlice({
   name: "documents",
   initialState: initialState,
   reducers: {
-    selectArtboard: (state, action: PayloadAction<string, number | undefined>) => {
+    selectArtboard: (state, action: { payload: number | undefined }) => {
       state.selectedArtboard = action.payload;
     },
   },

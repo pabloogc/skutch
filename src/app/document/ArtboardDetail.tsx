@@ -69,16 +69,16 @@ export const ArtboardDetail: React.FC<{
     <RootContainer>
       <TopBar icon={<CloseIcon/>} onIconClick={onClose} title={selectedArtboard.name}>
         <TopBarFileIndicator>
-          <ClickableIcon onClick={() => selectArtboard(-1)}><BackIcon/></ClickableIcon>
-          <span>{artboard + 1}</span>
+          <ClickableIcon data-testid="back" onClick={() => selectArtboard(-1)}><BackIcon/></ClickableIcon>
+          <span data-testid="back-text">{artboard + 1}</span>
           <SlashIcon/>
-          <span>{artboards.length}</span>
-          <ClickableIcon onClick={() => selectArtboard(+1)}><ForwardIcon/></ClickableIcon>
+          <span data-testid="forward-text">{artboards.length}</span>
+          <ClickableIcon data-testid="forward" onClick={() => selectArtboard(+1)}><ForwardIcon/></ClickableIcon>
         </TopBarFileIndicator>
       </TopBar>
 
       <ArtboardContainer>
-        <ArtboardImageFile src={images[artboard]}/>
+        <ArtboardImageFile src={images[artboard]} alt={images[artboard]}/>
       </ArtboardContainer>
     </RootContainer>
   );
