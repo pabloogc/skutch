@@ -6,6 +6,9 @@ Sketch coding challenge app, created with CRA
 
 Just run `npm install` followed by `npm run build/start` to build/start the app, and everything should _just work_.
 
+The website is hosted in my raspberry here: http://sketch.mini-pi.duckdns.org/  
+However, you will need to disable CORS (I am using [this extension](https://chrome.google.com/webstore/detail/moesif-origin-cors-change/digfbfaphojjndkpccljibejjbppifbc)) 
+
 ## Design decisions
 
 ### Typescript
